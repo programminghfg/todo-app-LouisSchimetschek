@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+    import ToDo from '../lib/components/ToDo.svelte';
   
 
   let todoText = '';
@@ -34,6 +35,18 @@
     saveTodos();
   }
 </script>
+
+
+
+<h1>TODO APP</h1>
+
+<input type="text" class="todo-input" bind:value={todoText} />
+<button class="add-button" on:click={addTodo}>ADD</button>
+
+{#each todos as todo, index}
+    <ToDo {todo} {index} on:remove={(event) => remove(event.detail)}></ToDo>
+{/each}
+
 
 <style>
   h1 {
@@ -132,30 +145,3 @@
     opacity: 1;
   }
 </style>
-
-
-
-<h1>TODO APP</h1>
-
-<input type="text" class="todo-input" bind:value={todoText} />
-<button class="add-button" on:click={addTodo}>ADD</button>
-
-{#each todos as todo, index}
-  <div class="todo-entry" class:done={todo.done}>
-    <input
-      type="checkbox"
-      class="todo-done"
-      bind:checked={todo.done}
-      id="checkbox_{index}"
-    />
-    <label for="checkbox_{index}" class="todo-text">{todo.text}</label>
-    <button
-      class="delete-button"
-      on:click={() => {
-        remove(index);
-      }}
-    >
-      X
-    </button>
-  </div>
-{/each}
